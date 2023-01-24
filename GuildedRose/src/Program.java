@@ -8,7 +8,7 @@ public class Program {
     {
         System.out.println("OMGHAI!");
 
-        var app = new Program();
+        Program app = new Program();
         app.Items = new ArrayList<Item>();
         app.Items.add(new Item("+5 Dexterity Vest", 10, 20));
         app.Items.add(new Item("Aged Brie", 2, 0));
@@ -20,16 +20,17 @@ public class Program {
         app.UpdateQuality();
 
         System.out.println("Press enter to exit...");
-        var scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         scan.nextLine();
         scan.close();
     }
 
     public void UpdateQuality()
     {
-        for (var i = 0; i < Items.size(); i++)
+        for (int i = 0; i < Items.size(); i++)
         {
-            var item = Items.get(i);
+        	
+            Item item = Items.get(i);
             if (!item.getName().equals("Aged Brie") && !item.getName().equals("Backstage passes to a TAFKAL80ETC concert"))
             {
                 if (item.getQuality() > 0)
