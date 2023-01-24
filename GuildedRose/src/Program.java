@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Program {
-    public ArrayList<Item> Items;
+    public List<Item> Items;
 
     public static void main(String[] args)
     {
@@ -27,79 +28,44 @@ public class Program {
 
     public void UpdateQuality()
     {
-        for (int i = 0; i < Items.size(); i++)
+        for (Item item: Items)
         {
         	
-            Item item = Items.get(i);
-            if (!item.getName().equals("Aged Brie") && !item.getName().equals("Backstage passes to a TAFKAL80ETC concert"))
-            {
-                if (item.getQuality() > 0)
-                {
-                    if (!item.getName().equals("Sulfuras, Hand of Ragnaros"))
-                    {
-                        item.setQuality(item.getQuality() - 1);
-                    }
-                }
-            }
-            else
-            {
-                if (item.getQuality() < 50)
-                {
-                    item.setQuality(item.getQuality() + 1);
+            String itemName = item.getName();
 
-                    if (item.getName().equals("Backstage passes to a TAFKAL80ETC concert"))
-                    {
-                        if (item.getSellIn() < 11)
-                        {
-                            if (item.getQuality() < 50)
-                            {
-                                item.setQuality(item.getQuality() + 1);
-                            }
-                        }
+            //Quality Update
+            int quality=-1;
+            int maxQ=50;
+        	switch (itemName) {
+        		case "Sulfuras, Hand of Ragnaros": 
+        			quality=0;
+        			maxQ=80;
+        			break;
+	        	case "Aged Brie":
+	        		quality=1;
+	        		break;
+	        	case "Backstage passes to a TAFKAL80ETC concert":
+	        		quality=1;
+	        		if (item.getSellIn() < 11) {quality++;}
+	        		if (item.getSellIn() < 6) {quality++;}
+                    break;
+	        	case "Conjured Mana Cake":
+	        		quality*=2;
+        	}
+        	if (item.getSellIn()<=0) {
+        		if (item.getName().equals("Backstage passes to a TAFKAL80ETC concert")) {
+        			quality=-item.getQuality();
+        		} else {
+        			quality*=2;
+        		}
+        	}
+        	item.setQuality(Math.min(maxQ, Math.max(0, item.getQuality()+quality)));
 
-                        if (item.getSellIn() < 6)
-                        {
-                            if (item.getQuality() < 50)
-                            {
-                                item.setQuality(item.getQuality() + 1);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!item.getName().equals("Sulfuras, Hand of Ragnaros"))
-            {
-                item.setSellIn(item.getSellIn() - 1);
-            }
-
-            if (item.getSellIn() < 0)
-            {
-                if (!item.getName().equals("Aged Brie"))
-                {
-                    if (!item.getName().equals("Backstage passes to a TAFKAL80ETC concert"))
-                    {
-                        if (item.getQuality() > 0)
-                        {
-                            if (!item.getName().equals("Sulfuras, Hand of Ragnaros"))
-                            {
-                                item.setQuality(item.getQuality() - 1);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        item.setQuality(item.getQuality() - item.getQuality());
-                    }
-                }
-                else
-                {
-                    if (item.getQuality() < 50)
-                    {
-                        item.setQuality(item.getQuality() + 1);
-                    }
-                }
-            }
+        	//Sellin update
+        	if (!item.getName().equals("Sulfuras, Hand of Ragnaros")) {
+        		item.setSellIn(item.getSellIn() - 1);
+        	}
+        	
         }
     }
 }
